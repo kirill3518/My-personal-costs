@@ -7,7 +7,10 @@
         <div class="title">My personal costs</div>
       </header>
       <main>
-        <AddPaymentForm @addNewPayment="addNewPayment" />
+        <div class="add-cost">
+          <button @click="onAddClick">ADD NEW COST</button>
+        </div>
+        <AddPaymentForm v-if="saved" @addNewPayment="addNewPayment" />
         <PaymentsDisplay :items="paymentsList" />
       </main>
     </div>
@@ -27,6 +30,7 @@ export default {
     return {
       paymentsList: [],
       maxId: 0,
+      saved: false,
     };
   },
   methods: {
@@ -57,6 +61,9 @@ export default {
       data.id = ++this.maxId;
       this.paymentsList = [...this.paymentsList, data];
     },
+    onAddClick() {
+      this.saved = !this.saved;
+    },
   },
   created() {
     this.paymentsList = this.fetchData();
@@ -82,6 +89,23 @@ export default {
       font-size: 32px;
       color: #222224;
       padding-bottom: 15px;
+    }
+
+    .add-cost {
+      margin: 0 auto;
+      margin-bottom: 15px;
+      button {
+        background-color: #24ada1;
+        border: none;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 17px;
+        color: #ffffff;
+        padding: 5px 40px 5px 40px;
+        margin-top: 10px;
+        margin-right: -70px;
+      }
     }
   }
 }

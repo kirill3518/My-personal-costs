@@ -1,10 +1,7 @@
 <template>
   <!-- <div :class="[$style.wrapper]"> -->
   <div class="wrapper">
-    <div class="add-cost">
-      <button @click="onAddClick">ADD NEW COST</button>
-    </div>
-    <div class="save-cost" v-if="saved">
+    <div class="save-cost">
       <input placeholder="Date" v-model="date" />
       <input placeholder="Category" v-model="category" />
       <input placeholder="Value" v-model="value" />
@@ -21,7 +18,6 @@ export default {
       category: "",
       date: "",
       id: 0,
-      saved: false,
     };
   },
   computed: {
@@ -34,9 +30,6 @@ export default {
     },
   },
   methods: {
-    onAddClick() {
-      this.saved = !this.saved;
-    },
     onSaveClick() {
       const data = {
         id: this.id,
@@ -59,13 +52,6 @@ export default {
 .wrapper {
   margin: 0 auto;
   width: 300px;
-  .add-cost {
-    margin: 0 auto;
-    margin-bottom: 15px;
-    button {
-      left: 500px;
-    }
-  }
 
   .save-cost {
     margin: 0 auto;
