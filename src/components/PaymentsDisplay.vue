@@ -7,7 +7,7 @@
       <div class="el">Category</div>
       <div class="el">Value</div>
     </div>
-    <div class="item" v-for="item in items" :key="item.id">
+    <div class="item" v-for="item in getFPV" :key="item.id">
       <div class="el">{{ item.id }}</div>
       <div class="el">{{ item.date }}</div>
       <div class="el">{{ item.category }}</div>
@@ -17,12 +17,14 @@
 </template>
  
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  props: {
-    items: {
-      type: Array,
-      //   default: [],
-      default: () => [],
+  computed: {
+    ...mapGetters(["getPaymentsList", "getPaymentsList2"]),
+    getFPV() {
+      // return this.getPaymentsList;
+      return this.getPaymentsList2;
     },
   },
 };
