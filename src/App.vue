@@ -10,8 +10,8 @@
         <div class="add-cost">
           <button @click="onAddClick">ADD NEW COST</button>
         </div>
-        <AddPaymentForm v-if="saved" @addNewPayment="addNewPayment" />
-        <PaymentsDisplay :items="paymentsList" />
+        <AddPaymentForm v-if="saved" />
+        <PaymentsDisplay />
       </main>
     </div>
   </div>
@@ -20,6 +20,7 @@
 <script>
 import PaymentsDisplay from "./components/PaymentsDisplay";
 import AddPaymentForm from "./components/AddPaymentForm";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -28,45 +29,29 @@ export default {
   },
   data() {
     return {
-      paymentsList: [],
-      maxId: 0,
       saved: false,
     };
   },
   methods: {
-    fetchData() {
-      this.maxId = 3;
-      return [
-        {
-          id: 1,
-          date: "28.03.2020",
-          category: "Food",
-          value: 169,
-        },
-        {
-          id: 2,
-          date: "24.03.2020",
-          category: "Transport",
-          value: 360,
-        },
-        {
-          id: 3,
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-      ];
-    },
-    addNewPayment(data) {
-      data.id = ++this.maxId;
-      this.paymentsList = [...this.paymentsList, data];
-    },
     onAddClick() {
       this.saved = !this.saved;
     },
+    ...mapMutations([
+      "setPaymentsListData",
+      "setPageList",
+      "setDataToPaymentList",
+      "setPageNum",
+    ]),
+    ...mapActions(["fetchData"]),
+    ...mapGetters(["getPaymentsList"]),
   },
   created() {
-    this.paymentsList = this.fetchData();
+    this.setPageList();
+
+    let num = 1; // Имитация нажатия кнопки "1" компонента пагинации
+    this.setPageNum(num);
+    this.setDataToPaymentList(num);
+    // this.fetchData(num);
   },
 };
 </script>

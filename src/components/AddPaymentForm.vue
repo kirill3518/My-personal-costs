@@ -2,15 +2,28 @@
   <!-- <div :class="[$style.wrapper]"> -->
   <div class="wrapper">
     <div class="save-cost">
-      <input placeholder="Date" v-model="date" />
-      <input placeholder="Category" v-model="category" />
-      <input placeholder="Value" v-model="value" />
+      <form action="#">
+        <input placeholder="Date" v-model="date" />
+        <!-- <input placeholder="Category" v-model="category" /> -->
+        <select v-model="category">
+          <option
+            v-for="option in getCategoryList"
+            v-bind:key="option.id"
+            :value="option.name"
+          >
+            {{ option.name }}
+          </option>
+        </select>
+        <input placeholder="Value" v-model="value" />
+      </form>
       <button @click="onSaveClick">ADD</button>
     </div>
   </div>
 </template>
  
 <script>
+import { mapMutations, mapActions, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -28,8 +41,11 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
+    ...mapGetters(["getCategoryList"]),
   },
   methods: {
+    ...mapActions(["loadCategories"]),
+    ...mapMutations(["addDataToPaymentsList"]),
     onSaveClick() {
       const data = {
         id: this.id,
@@ -37,8 +53,13 @@ export default {
         category: this.category || "Unknown",
         value: +this.value,
       };
-      this.$emit("addNewPayment", data);
+      this.addDataToPaymentsList(data);
     },
+  },
+  mounted() {
+    if (!this.getCategoryList.length) {
+      this.loadCategories();
+    }
   },
 };
 </script>
@@ -58,7 +79,8 @@ export default {
     width: 185px;
   }
 
-  input {
+  input,
+  select {
     padding: 10px 5px;
     margin-bottom: 10px;
   }
