@@ -5,13 +5,33 @@
       <header>
         <!-- <div :class="[$style.title]">My personal costs</div> -->
         <div class="title">My personal costs</div>
+        <!-- <a href="dasboard">Dashboard</a>
+        <a href="about">Dashboard</a>
+        <a href="unknown">dev/null</a> -->
+        <router-link to="/dashboard">Dashboard</router-link>
+        <br />
+        <router-link to="/about">About</router-link>
+        <br />
+        <router-link to="/add/payment/Food?value=200">Food</router-link>
+        <br />
+        <router-link to="/add/payment/Transport?value=50"
+          >Transport</router-link
+        >
+        <br />
+        <router-link to="/add/payment/Entertainment?value=2000"
+          >Entertainment</router-link
+        >
       </header>
+      <router-view />
       <main>
         <div class="add-cost">
           <button @click="onAddClick">ADD NEW COST</button>
         </div>
         <AddPaymentForm v-if="saved" />
         <PaymentsDisplay />
+        <!-- <PageDashboard v-if="page === 'dasboard'" />
+        <PageAbout v-else-if="page === 'about'" />
+        <Page404 v-else /> -->
       </main>
     </div>
   </div>
@@ -23,6 +43,9 @@ import AddPaymentForm from "./components/AddPaymentForm";
 import { mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
+  props: {
+    page: String,
+  },
   components: {
     PaymentsDisplay,
     AddPaymentForm,
@@ -52,6 +75,16 @@ export default {
     this.setPageNum(num);
     this.setDataToPaymentList(num);
     // this.fetchData(num);
+  },
+  mounted() {
+    const links = document.querySelectorAll("a");
+    links.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        history.pushState({}, "", link.href);
+        this.$root.$emit("router-go");
+      });
+    });
   },
 };
 </script>

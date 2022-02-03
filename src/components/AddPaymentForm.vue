@@ -33,7 +33,15 @@ export default {
       id: 0,
     };
   },
+  // props: {
+  //   Value: Number,
+  // },
   computed: {
+    ...mapGetters(["getCategoryList"]),
+    // , "getDate", "getCategory", "getValue"
+    // category: function () {
+    //   return this.getCategory;
+    // },
     getCurrentDate() {
       const today = new Date();
       const d = today.getDate() + "";
@@ -41,7 +49,6 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
-    ...mapGetters(["getCategoryList"]),
   },
   methods: {
     ...mapActions(["loadCategories"]),
