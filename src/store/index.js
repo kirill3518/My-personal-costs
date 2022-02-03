@@ -10,6 +10,9 @@ export default new Vuex.Store({
     categoryList: [],
     pageList: {}, // хардкод
     pageNum: 1,
+    date: '',
+    category: '',
+    value: '',
   },
   mutations: {
     // Заполнить paymentsList
@@ -83,7 +86,16 @@ export default new Vuex.Store({
     // Установить номер страницы
     setPageNum(state, payload) {
       state.pageNum = payload;
-    }
+    },
+    setDate(state, payload) {
+      state.date = payload;
+    },
+    setCategory(state, payload) {
+      state.category = payload;
+    },
+    setValue(state, payload) {
+      state.value = payload;
+    },
   },
   actions: {
     // Выбрать данные по номеру страницы
@@ -135,6 +147,15 @@ export default new Vuex.Store({
     },
     getPageNum: state => {
       return state.pageNum;
+    },
+    getDate: state => {
+      return state.date;
+    },
+    getCategory: state => {
+      return state.category;
+    },
+    getValue: state => {
+      return state.value;
     }
   }
 })
