@@ -10,9 +10,6 @@ export default new Vuex.Store({
     categoryList: [],
     pageList: {}, // хардкод
     pageNum: 1,
-    date: '',
-    category: '',
-    value: '',
   },
   mutations: {
     // Заполнить paymentsList
@@ -87,15 +84,13 @@ export default new Vuex.Store({
     setPageNum(state, payload) {
       state.pageNum = payload;
     },
-    setDate(state, payload) {
-      state.date = payload;
-    },
-    setCategory(state, payload) {
-      state.category = payload;
-    },
-    setValue(state, payload) {
-      state.value = payload;
-    },
+    deletePayment(state, { num, id }) {
+      let page = 'page' + num;
+      let a = state.paymentsList[0][page];
+      a = a.filter((el) => el.id !== id);
+      let i = state.paymentsList.indexOf([page]);
+      state.paymentsList.splice(i, 1, { [page]: a });
+    }
   },
   actions: {
     // Выбрать данные по номеру страницы
@@ -148,14 +143,5 @@ export default new Vuex.Store({
     getPageNum: state => {
       return state.pageNum;
     },
-    getDate: state => {
-      return state.date;
-    },
-    getCategory: state => {
-      return state.category;
-    },
-    getValue: state => {
-      return state.value;
-    }
   }
 })

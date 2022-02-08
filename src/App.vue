@@ -3,6 +3,8 @@
     <!-- <div :class="[$style.wrapper]"> -->
     <div class="wrapper">
       <header>
+        <router-link to="/dashboard">Dashboard</router-link>
+        <!-- добавил -->
         <!-- <div :class="[$style.title]">My personal costs</div> -->
         <div class="title">My personal costs</div>
         <!-- <a href="dasboard">Dashboard</a>
@@ -22,7 +24,8 @@
           >Entertainment</router-link
         >
       </header>
-      <router-view />
+      <router-view @openModalWindow="onModalOpen" />
+
       <main>
         <div class="add-cost">
           <button @click="onAddClick">ADD NEW COST</button>
@@ -34,6 +37,9 @@
         <Page404 v-else /> -->
       </main>
     </div>
+
+    <ModalWindow :settings="modalSettings" @close="onModalClose" />
+    <transition name="fade"> <ContextMenu></ContextMenu> </transition>
   </div>
 </template>
  
@@ -41,6 +47,8 @@
 import PaymentsDisplay from "./components/PaymentsDisplay";
 import AddPaymentForm from "./components/AddPaymentForm";
 import { mapMutations, mapActions, mapGetters } from "vuex";
+import ModalWindow from "./components/ModalWindow.vue"; // добавил
+import ContextMenu from "./components/ContextMenu.vue";
 
 export default {
   props: {
@@ -49,10 +57,15 @@ export default {
   components: {
     PaymentsDisplay,
     AddPaymentForm,
+    ModalWindow,
+    // ModalWindow: () =>
+    //   import(/*webpackChunkName: 'Modal' */ "./components/ModalWindow.vue"),
+    ContextMenu,
   },
   data() {
     return {
       saved: false,
+      modalSettings: {}, // добавил
     };
   },
   methods: {
@@ -67,6 +80,12 @@ export default {
     ]),
     ...mapActions(["fetchData"]),
     ...mapGetters(["getPaymentsList"]),
+    onModalOpen(settings) {
+      this.modalSettings = settings;
+    },
+    onModalClose() {
+      this.modalSettings = {};
+    },
   },
   created() {
     this.setPageList();
@@ -126,6 +145,16 @@ export default {
       }
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 #nav {
