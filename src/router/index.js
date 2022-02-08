@@ -11,7 +11,7 @@ const routes = [
     path: '/add/payment/*',
     name: 'AddPaymentForm',
     component: AddPaymentForm,
-    props: { pValue: 0 },
+    // props: { pValue: 0 },
     // component: { template: '<form>*AUTH FORM*</form>' }
     // component: { template: '<AddPaymentForm :value="value" />' }
     // template: '<App :page="page" />',
@@ -69,15 +69,9 @@ router.afterEach((to) => {
   // console.log(to.name);
   // console.log(to.params);
   if (to.name === 'AddPaymentForm') {
-    console.log('AddPaymentForm');
     let paramsString = document.location.search;
-    console.log(paramsString);
     let paramsInt = parseInt(paramsString.match(/\d+/));
-    console.log(paramsInt);
     this.$store.commit('setValue', paramsInt);
-    // setValue(paramsInt);
-    // console.log(getValue);
-
   }
 
 })
